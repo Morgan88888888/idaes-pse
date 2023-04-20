@@ -15,7 +15,7 @@ Basic property package for flue gas.
 
 Main assumptions:
     - ideal gas
-    - components in flue gas: O2, N2, NO, CO2, H2O, SO2
+    - components in flue gas: O2, N2, NO, CO2, H2O, SO2, Ar
 """
 # TODO: Missing docstrings
 # pylint: disable=missing-function-docstring
@@ -61,8 +61,8 @@ import idaes.logger as idaeslog
 
 
 # Some more inforation about this module
-__author__ = "Boiler Subsystem Team  J. Ma, M. Zamarripa, T. Burgard"
-__version__ = "3"
+__author__ = "Boiler Subsystem Team  J. Ma, M. Zamarripa, T. Burgard, M. Wang"
+__version__ = "4"
 
 # Set up logger
 _log = idaeslog.getLogger("idaes.unit_model.properties")
@@ -82,7 +82,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
     CONFIG.declare(
         "components",
         ConfigValue(
-            default=["N2", "O2", "NO", "CO2", "H2O", "SO2"],
+            default=["N2", "O2", "NO", "CO2", "H2O", "SO2", "Ar"],
             domain=list,
             description="Components to include",
         ),
@@ -92,7 +92,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
         """Add contents to the block."""
         super().build()
         self._state_block_class = FlueGasStateBlock
-        _valid_comps = ["N2", "O2", "NO", "CO2", "H2O", "SO2"]
+        _valid_comps = ["N2", "O2", "Ar","NO", "CO2", "H2O", "SO2"]
 
         for j in self.config.components:
             if j not in _valid_comps:
@@ -110,6 +110,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
                 for k, v in {
                     "O2": 0.0319988,
                     "N2": 0.0280134,
+                    "Ar": 0.039948,
                     "NO": 0.0300061,
                     "CO2": 0.0440095,
                     "H2O": 0.0180153,
@@ -145,6 +146,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
                 for k, v in {
                     "O2": 50.45985e5,
                     "N2": 33.943875e5,
+                    "Ar": 48.979e5,
                     "NO": 64.85e5,
                     "CO2": 73.8e5,
                     "H2O": 220.64e5,
@@ -164,6 +166,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
                 for k, v in {
                     "O2": 154.58,
                     "N2": 126.19,
+                    "Ar": 150.86,
                     "NO": 180.0,
                     "CO2": 304.18,
                     "H2O": 647,
@@ -183,6 +186,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
             for k, v in {
                 "N2": 19.50583,
                 "O2": 30.03235,
+                "Ar": 20.786,
                 "CO2": 24.99735,
                 "H2O": 30.092,
                 "NO": 23.83491,
@@ -195,6 +199,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
             for k, v in {
                 "N2": 19.88705,
                 "O2": 8.772972,
+                "Ar": 2.825911e-7,
                 "CO2": 55.18696,
                 "H2O": 6.832514,
                 "NO": 12.58878,
@@ -207,6 +212,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
             for k, v in {
                 "N2": -8.598535,
                 "O2": -3.98813,
+                "Ar": -1.464191e-7,
                 "CO2": -33.69137,
                 "H2O": 6.793435,
                 "NO": -1.139011,
@@ -219,6 +225,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
             for k, v in {
                 "N2": 1.369784,
                 "O2": 0.788313,
+                "Ar": 1.092131e-8,
                 "CO2": 7.948387,
                 "H2O": -2.53448,
                 "NO": -1.497459,
@@ -231,6 +238,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
             for k, v in {
                 "N2": 0.527601,
                 "O2": -0.7416,
+                "Ar": -3.661371e-8,
                 "CO2": -0.136638,
                 "H2O": 0.082139,
                 "NO": 0.214194,
@@ -244,6 +252,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
                 "N2": -4.935202,
                 "O2": -11.3247,
                 "CO2": -403.6075,
+                "Ar": -6.19735,
                 "H2O": -250.881,
                 "NO": 83.35783,
                 "SO2": -305.7688,
@@ -255,6 +264,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
             for k, v in {
                 "N2": 212.39,
                 "O2": 236.1663,
+                "Ar": 179.999,
                 "CO2": 228.2431,
                 "H2O": 223.3967,
                 "NO": 237.1219,
@@ -267,6 +277,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
             for k, v in {
                 "N2": 0,
                 "O2": 0,
+                "Ar": 0,
                 "CO2": -393.5224,
                 "H2O": -241.8264,
                 "NO": 90.29114,
@@ -345,6 +356,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
                 for k, v in {
                     "O2": 3.458,
                     "N2": 3.621,
+                    "Ar": 3.418,
                     "NO": 3.47,
                     "CO2": 3.763,
                     "H2O": 2.605,
@@ -362,6 +374,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
                 for k, v in {
                     "O2": 107.4,
                     "N2": 97.53,
+                    "Ar": 124.0,
                     "NO": 119.0,
                     "CO2": 244.0,
                     "H2O": 572.4,
@@ -378,6 +391,7 @@ class FlueGasParameterData(PhysicalParameterBlock):
         self.set_default_scaling("flow_vol", 1e-3)
         # anything not explicitly listed
         self.set_default_scaling("mole_frac_comp", 1)
+        self.set_default_scaling("mole_frac_comp", 1e3, index="Ar")
         self.set_default_scaling("mole_frac_comp", 1e3, index="NO")
         self.set_default_scaling("mole_frac_comp", 1e3, index="SO2")
         self.set_default_scaling("mole_frac_comp", 1e2, index="H2O")
