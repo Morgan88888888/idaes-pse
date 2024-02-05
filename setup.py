@@ -34,7 +34,7 @@ def rglob(path, glob):
 
 
 # For included DMF data
-DMF_DATA_ROOT = "data"
+DMF_DATA_ROOT = "dmf_data"
 
 
 def dmf_data_files(root: str = DMF_DATA_ROOT) -> List[Tuple[str, List[str]]]:
@@ -69,8 +69,9 @@ class ExtraDependencies:
     """
 
     ui = [
-        "requests",
-        "pint",
+        # FIXME this must be changed to the PyPI distribution for the release
+        # "idaes-ui",
+        "idaes-ui @ git+https://github.com/IDAES/idaes-ui@main",
     ]
     _ipython = [
         'ipython <= 8.12; python_version == "3.8"',
@@ -122,15 +123,22 @@ kwargs = dict(
     zip_safe=False,
     name=NAME,
     version=VERSION,
-    packages=find_namespace_packages(),
+    packages=find_namespace_packages(
+        include=[
+            "idaes*",
+            "dmf_data*",
+        ]
+    ),
     # Put abstract (non-versioned) deps here.
     # Concrete dependencies go in requirements[-dev].txt
     install_requires=[
-        "pyomo @ https://github.com/IDAES/pyomo/archive/6.6.2.idaes.2023.07.28.zip",
+        "pyomo >= 6.7.0",
         "pint",  # required to use Pyomo units
         "networkx",  # required to use Pyomo network
         "numpy",
-        "pandas",
+        # pandas constraint added on 2023-08-30 b/c bug in v2.1
+        # see IDAES/idaes-pse#1253
+        "pandas!=2.1.0",
         "scipy",
         "sympy",  # idaes.core.util.expr_doc
         "matplotlib",
