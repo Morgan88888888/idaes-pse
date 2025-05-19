@@ -1,0 +1,37 @@
+﻿Account ID,Account Name,BEC,Eng Fee,Process Contingency,Project Contingency,Process Parameter,Exponent,RP Value
+15.6,Multistage Compressor 1,7404.164282,0.2,0,0.2,"Volumetric Flow to Compressor, cuft/hr",0.7,987591.8426
+15.7,Multistage Compressor 2,2668.776553,0,0,0,"Volumetric Flow to Compressor, cuft/hr",0.7,987591.8426
+15.9,Recycle Compressor,1461.214247,0.2,0,0.2,"Volumetric Flow to Compressor, cuft/hr",0.7,987591.8426
+3.2,Water Makeup & Pretreating ,1581.607547,0.2,0,0.2,"Raw water withdrawal, gpm",0.73,3719.7234
+9.5,Make-up Water System,213.1821906,0.2,0,0.2,"Raw Water Withdrawal, gpm",0.6,3719.7234
+14.3,Water Treatment Buildings,172.3712257,0.2,0,0.2,"Raw Water Withdrawal, gpm",0.66,3719.7234
+14.7,Waste Treating Building & Str.,1642.679562,0.2,0,0.2,"Raw Water Withdrawal, gpm",0.09,3719.7234
+3.7,Waste Water Treatment Equipment,2302.631622,0.2,0,0.2,"Process water discharge, gpm",0.71,774.9992
+12.1,"Control Boards, Panels & Racks",621.1864957,0.2,0,0.2,"Net Auxiliary Load, kWe",0.6,110180
+12.2,Computer & Accessories,14253.21791,0.2,0,0.2,"Net Auxiliary Load, kWe",0.6,110180
+12.3,Instrument Wiring & Tubing,1459.271794,0.2,0,0.2,"Net Auxiliary Load, kWe",0.6,110180
+12.4,Other I & C Equipment,3265.471801,0.2,0,0.2,"Net Auxiliary Load, kWe",0.6,110180
+14.1,Administration Building,576.3090205,0.2,0,0.2,"Methanol Production, gpy",0.7,60999867.55
+14.4,Machine Shop,842.8784196,0.2,0,0.2,"Methanol Production, gpy",0.7,60999867.55
+14.5,Warehouse ,641.4062344,0.2,0,0.2,"Methanol Production, gpy",0.7,60999867.55
+14.6,Other Buildings & Structures,3281.226129,0.2,0,0.2,"Methanol Production, gpy",0.7,60999867.55
+15.1,Heat Exchangers,16425.56669,0.2,0,0.2,"Methanol Production, gpy",0.7,609582275.2
+15.2,Compressors/Turbines,7681.445975,0.2,0,0.2,"Methanol Production, gpy",0.7,609582275.2
+15.3,Reactors,2945.505504,0.2,0,0.2,"Methanol Production, gpy",0.7,609582275.2
+15.4,Columns/Vessels,3228.861538,0.2,0,0.2,"Methanol Production, gpy",0.7,609582275.2
+15.5,Pumps,134.1324914,0.2,0,0.2,"Methanol Production, gpy",0.7,609582275.2
+15.8,Intercoolers,481.1420695,0.2,0,0.2,"Heat Duty, MMBtu/hr",0.7,141.0547
+16.1,Stack Capital Cost,69507.3333,0.2,0,0.2,"H2 Production, kg/day",0.6,56500
+16.2,Mechanical BoP,6561.758866,0.2,0,0.2,"H2 Production, kg/day",0.6,56500
+16.3,Electrical BoP,16651.67187,0.2,0,0.2,"H2 Production, kg/day",0.6,56500
+3.8,Miscellaneous Plant Equipment,10722.22985,0.2,0,0.2,"Feed gas flow, lb/hr",0.7,213694.423
+9.1,Cooling Towers,3986.576716,0.2,0,0.2,"Cooling Tower Duty, MMBTU/hr",0.7,1597.2452
+9.2,Circulating Water Pumps,197.9032119,0.2,0,0.2,"Circulating water flow rate, gpm ",0.72,159725.1579
+9.3,Circulating Water System Auxiliaries,2114.798608,0.2,0,0.2,"Circulating water flow rate, gpm ",0.6,159725.1579
+9.4,Circulating Water Piping,1024.472046,0.2,0,0.2,"Circulating water flow rate, gpm ",0.6,159725.1579
+9.6,Component Cooling Water System,140.0718279,0.2,0,0.2,"Circulating water flow rate, gpm ",0.6,159725.1579
+9.7,Circulating Water System Foundations,330.9030525,0.2,0,0.2,"Circulating water flow rate, gpm ",0.6,159725.1579
+14.2,Circulation Water Pumphouse,20.05662014,0.2,0,0.2,"Circulating water flow rate, gpm ",0.6,159725.1579
+13.1,Site Preparation,10395.53053,0.2,0,0.2,"BEC minus Accts. 13 and 14, NA",0.7,202242.022
+13.2,Site Improvements,2072.317216,0.2,0,0.2,"BEC minus Accts. 13 and 14, NA",0.7,202242.022
+13.3,Site Facilities,2957.683508,0.2,0,0.2,"BEC minus Accts. 13 and 14, NA",0.7,202242.022
