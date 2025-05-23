@@ -336,6 +336,11 @@ class QGESSCostingData(FlowsheetCostingBlockData):
                     self.waste_cost_OC = Expression(
                         expr=(sum(self.variable_operating_costs[0, i] for i in waste) / 12 / capacity_factor)
                     )
+                elif tech == 10: # from report
+                    self.waste_cost_OC = Expression(
+                        expr=((sum(self.variable_operating_costs[0, i] for i in waste) 
+                              +self.maintenance_material_cost)/ 12/capacity_factor)
+                    )
                 else:  # at operating capacity, 1 month
                     self.waste_cost_OC = Expression(
                         expr=(sum(self.variable_operating_costs[0, i] for i in waste) / 12)
@@ -447,18 +452,18 @@ class QGESSCostingData(FlowsheetCostingBlockData):
                 + (self.waste_cost_OC)  # 1 month waste  
                 + (
                     self.feedstock_cost_OC
-                    if feedstock is not None
-                    else 0 * CE_index_units / pyunits.year
-                    )  # 60 day consumables supply
-                    # Other costs
+                    # if feedstock is not None
+                    # else 0 * CE_index_units / pyunits.year
+                    # )  # 60 day consumables supply
+                    # # Other costs
                 )
                 * 1
                 * pyunits.year  # variable costs for 1 year
                 + (self.land_cost if land_cost is not None else 0 * CE_index_units)
-                + self.total_TPC
-                * self.pct_TPC  # other owners costs (other + spare parts
+                + (self.total_TPC
+                * self.pct_TPC)  # other owners costs (other + spare parts
                 # + financing + other pre-production)
-            )
+            ))
                 
             else:
                 self.total_overnight_capital = Expression(
@@ -933,7 +938,7 @@ class QGESSCostingData(FlowsheetCostingBlockData):
         CE_index_year="2018",
         additional_costing_params=None,
         use_additional_costing_params=False,
-        multiply_project_conting=True,
+        multiply_project_conting=False,
     ):
         """
         Power Plant Costing Method
@@ -2078,7 +2083,7 @@ class QGESSCostingData(FlowsheetCostingBlockData):
             6: [0.4, 0.019, 0.019],
             7: [0.4, 0.016, 0.016],
             8: [0.4, 0.019, 0.016],
-            10:[0.4, 0.019, 0.016], #need to update
+            10:[0.4, 0.019, 0.019], #Updated from report
         }
 
         b.maintenance_labor_TPC_split = Param(
@@ -2333,6 +2338,7 @@ class QGESSCostingData(FlowsheetCostingBlockData):
             doc="total variable operating and maintenance costs in $MM/year",
             units=CE_index_units / pyunits.year,
         )
+        
 
         @b.Constraint(b.parent_block().time, resources)
         def variable_cost_rule_power(c, t, r):
@@ -2340,7 +2346,7 @@ class QGESSCostingData(FlowsheetCostingBlockData):
                 pyunits.convert(
                     resource_prices[r] * resource_rates[r][t],
                     CE_index_units / pyunits.year,
-                )
+                ) * capacity_factor
             )
 
         if hasattr(b, "maintenance_material_cost"):  # from get_fixed_OM_costs

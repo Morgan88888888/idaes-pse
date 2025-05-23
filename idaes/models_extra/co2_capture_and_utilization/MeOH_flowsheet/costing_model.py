@@ -29,7 +29,7 @@ from idaes.core.initialization import (
     BlockTriangularizationInitializer,
 )
 
-from power_plant_capcost_ref import (
+from MeOH_production_capcost import (
     QGESSCosting,
     QGESSCostingData,
 )
@@ -81,9 +81,11 @@ def build_costing(
     #=============================================================================
     # Add Accounts for TPC 
     #=============================================================================
+    tpc_account = []
     tech_id = 10
     blk.cost_VFC =  UnitModelBlock()
     VFC_accounts = ["15.6","15.7","15.9"]
+    tpc_account += VFC_accounts
     blk.Volumetric_Flow_Compressor = Var(initialize=987591.8426, 
                                        units=pyunits.cu_ft/pyunits.hr)
     blk.Volumetric_Flow_Compressor.fix()
@@ -98,12 +100,13 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
 
     blk.cost_RWW =  UnitModelBlock()
     RWW_accounts = ["3.2","9.5","14.3","14.7"]
+    tpc_account += RWW_accounts
     blk.Raw_Water_Withdrawal = Var(initialize=3719.7234, 
                                        units=pyunits.gal/pyunits.min)
     blk.Raw_Water_Withdrawal.fix()
@@ -117,12 +120,13 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
 
     blk.cost_PWD =  UnitModelBlock()
     PWD_accounts = ["3.7"]
+    tpc_account += PWD_accounts
     blk.Process_Water_Discharge = Var(initialize=774.9992, 
                                        units=pyunits.gal/pyunits.min)
     blk.Process_Water_Discharge.fix()
@@ -136,12 +140,13 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
 
     blk.cost_NAL = UnitModelBlock()
     NAL_accounts = ["12.1","12.2","12.3","12.4"]
+    tpc_account += NAL_accounts
     blk.Net_Auxiliary_Load = Var(initialize= 110.180, 
                             units=pyunits.MW)
     blk.Net_Auxiliary_Load.fix()
@@ -155,14 +160,15 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
 
 
     blk.cost_MP = UnitModelBlock()
-    MP_accounts = ['14.1','14.4','14.5','14.6','15.1','15.2','15.3','15.4','15.5']
-    blk.Meoh_Production = Var(initialize= 60999867.55,
+    MP_accounts = ['14.1','14.4','14.5','14.6']
+    tpc_account += MP_accounts
+    blk.Meoh_Production = Var(initialize= 60999867.5472, #60999867.5472
                                units = pyunits.gal/pyunits.year)
     blk.Meoh_Production.fix()
     blk.cost_MP.costing = UnitModelCostingBlock(
@@ -175,12 +181,33 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
+        },
+    )
+
+    blk.cost_MP_15 = UnitModelBlock()
+    MP_accounts_15 = ['15.1','15.2','15.3','15.4','15.5']
+    tpc_account += MP_accounts_15
+    blk.Meoh_Production_15 = Var(initialize= 609582275.173, #60999867.5472
+                               units = pyunits.gal/pyunits.year)
+    blk.Meoh_Production_15.fix()
+    blk.cost_MP_15.costing = UnitModelCostingBlock(
+        flowsheet_costing_block=blk.costing,
+        costing_method=QGESSCostingData.get_PP_costing,
+        costing_method_arguments={
+            "cost_accounts": MP_accounts_15,
+            "scaled_param": blk.Meoh_Production_15,
+            "tech": tech_id,
+            "ccs": "A",
+            "additional_costing_params": PL_costing_params,
+            "CE_index_year": cost_year,
+            "multiply_project_conting": True,#False
         },
     )
 
     blk.cost_HD = UnitModelBlock()
     HD_accounts = ['15.8']
+    tpc_account += HD_accounts
     blk.Heat_Duty = Var(initialize= 141.0547, #MMBTU/hr
                                units = pyunits.dimensionless)
     blk.Heat_Duty.fix()
@@ -194,12 +221,13 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
 
     blk.cost_HP = UnitModelBlock()
     HP_accounts = ['16.1','16.2','16.3']
+    tpc_account += HP_accounts
     blk.H2_Production = Var(initialize= 56500/24, 
                                units = pyunits.kg/pyunits.hr)
     blk.H2_Production.fix()
@@ -213,12 +241,13 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
 
     blk.cost_FGF = UnitModelBlock()
     FGF_accounts = ['3.8']
+    tpc_account += FGF_accounts
     blk.Feed_Gas_Flow = Var(initialize= 213694.423, 
                                units = pyunits.lb/pyunits.hr)
     blk.Feed_Gas_Flow.fix()
@@ -232,11 +261,12 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
     blk.cost_CTD = UnitModelBlock()
     CTD_accounts = ['9.1']
+    tpc_account += CTD_accounts
     blk.Cooling_Tower_Duty = Var(initialize= 1597.2452, #MMBTU/hr
                                units = pyunits.dimensionless)
     blk.Cooling_Tower_Duty.fix()
@@ -250,11 +280,12 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
     blk.cost_CWF = UnitModelBlock()
     CWF_accounts = ['9.2','9.3','9.4','9.6','9.7','14.2']
+    tpc_account += CWF_accounts
     blk.Circulating_Water_Flow = Var(initialize= 159725.1579, 
                             units=pyunits.gal/pyunits.min)
     blk.Circulating_Water_Flow.fix()
@@ -268,15 +299,17 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
 
     blk.cost_PBEC = UnitModelBlock()
     PBEC_accounts = ['13.1','13.2','13.3']
+    tpc_account += PBEC_accounts
     blk.Partial_BEC = Var(initialize= 202242.022, #$/year maybe
                                units = pyunits.dimensionless)
     blk.Partial_BEC.fix()
+    #TODO: need to add the real constraints
     blk.cost_PBEC.costing = UnitModelCostingBlock(
         flowsheet_costing_block=blk.costing,
         costing_method=QGESSCostingData.get_PP_costing,
@@ -287,11 +320,11 @@ def build_costing(
             "ccs": "A",
             "additional_costing_params": PL_costing_params,
             "CE_index_year": cost_year,
-            "multiply_project_conting": False,
+            "multiply_project_conting": True,#False
         },
     )
 
-
+    blk.tpc_account = tpc_account
     #=============================================================================
     # Add Varoable Cost
     #=============================================================================
@@ -332,7 +365,7 @@ def build_costing(
         fixed_OM=True,
         labor_rate=38.50,
         labor_burden=30,
-        operators_per_shift=0.6,
+        operators_per_shift=0.6343,
         tech=tech_id, 
         land_cost=blk.costing.land_cost_expression,
         variable_OM=True,
@@ -353,15 +386,15 @@ def build_costing(
 
 
 def report_costing_results(blk):
-    #QGESSCostingData.report(blk.costing)
-    QGESSCostingData.display_total_plant_costs(blk.costing)
+    #
+    # QGESSCostingData.report(blk.costing)
     print()
     print("Owner's Costs Breakdown")
     print("=======================")
     print()
     
-    print("6 months All Labor [$/1,000]: ", 1e3*value(blk.costing.six_month_labor))
-    print("1-month Maintenance Materials [$/1,000]: ", 1e3*value(blk.costing.maintenance_material_cost/12/blk.costing.capacity_factor))
+    print("6 months All Labor [$/1,000]: ", 1e3*value(blk.costing.six_month_labor)) #Done
+    print("1-month Maintenance Materials [$/1,000]: ", 1e3*value(blk.costing.maintenance_material_cost/12/blk.costing.capacity_factor)) #Done
     print("1-month Non-Fuel Consumables [$/1,000]: ", 1e3*value(blk.costing.non_fuel_and_waste_OC))
     print("1-month Waste Disposal [$/1,000]: ", 1e3*value(blk.costing.waste_cost_OC))                                                                                
     print("60-Day Supply of Chemical Consumables [$/1,000]: ", 1e3*value(blk.costing.feedstock_cost_OC))
@@ -389,6 +422,35 @@ def model_checker(model, solver, solver_info):
 
     return print(" model passed the check")
 
+def TPC_validation(blk):
+    sorted_accounts = sorted(blk.tpc_account,key = float)
+    #print(sorted_accounts)
+    tpc_dict = {}
+    for o in blk.costing.parent_block().component_objects(descend_into=True):
+        # look for costing blocks
+        if o.name in [
+            block.name for block in blk.costing._registered_unit_costing
+        ] and hasattr(o, "total_plant_cost"):
+            for key in o.total_plant_cost:
+                tpc_dict[key] =  value(o.total_plant_cost[key])
+    sum_tpc = 0
+    for key in sorted_accounts:
+        #print(type(key))
+        print("Account [" + key +"] : "+ "$%.3f Million"%(tpc_dict[key]))
+        sum_tpc += tpc_dict[key]
+
+    print(" Total Plant Cost is " + "$%.3f Million"%(sum_tpc))
+
+def FOM_validation(blk):
+    blk.costing.annual_operating_labor_cost.display()
+    blk.costing.maintenance_labor_cost.display()
+    blk.costing.admin_and_support_labor_cost.display()
+
+def VOM_validation(blk):
+    blk.costing.variable_operating_costs.display()
+    blk.costing.maintenance_material_cost.display()
+
+
 
 if __name__ == "__main__":
     m = ConcreteModel("MeOH costing")
@@ -398,6 +460,10 @@ if __name__ == "__main__":
     cost_year="2018_Dec",
     capacity_factor=0.85,
     )
+
     QGESSCostingData.costing_initialization(m.fs.costing)
     model_checker(model = m, solver = "ipopt", solver_info = True)
     report_costing_results(m.fs)
+    TPC_validation(m.fs)
+    FOM_validation(m.fs)
+    VOM_validation(m.fs)
