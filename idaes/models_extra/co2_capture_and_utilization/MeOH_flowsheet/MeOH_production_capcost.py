@@ -76,7 +76,7 @@ from idaes.core import declare_process_block_class
 _log = idaeslog.getLogger(__name__)
 
 # -----------------------------------------------------------------------------
-# Power Plant Costing Library
+# Power Plant Costing Library 
 # -----------------------------------------------------------------------------
 
 

@@ -308,6 +308,11 @@ def build_costing(
     tpc_account += PBEC_accounts
     blk.Partial_BEC = Var(initialize= 202242.022, #$/year maybe
                                units = pyunits.dimensionless)
+    #TODO: calculate the summary of BEC, according to total plant cost
+    # print out the values and make sure it is correct
+    # add a constrarint to make sure 
+    # free the var and link it to the system
+
     blk.Partial_BEC.fix()
     #TODO: need to add the real constraints
     blk.cost_PBEC.costing = UnitModelCostingBlock(
@@ -383,6 +388,10 @@ def build_costing(
         #annual_production_rate=blk.Meoh_Production,
         CE_index_year="2018_Dec"
         )
+    
+    # TODO: add the expression for LCOP and 
+    # create new method to print out LCOP
+    # create a table for needed varibale name and ask for process model
 
 
 def report_costing_results(blk):
@@ -392,7 +401,6 @@ def report_costing_results(blk):
     print("Owner's Costs Breakdown")
     print("=======================")
     print()
-    
     print("6 months All Labor [$/1,000]: ", 1e3*value(blk.costing.six_month_labor)) #Done
     print("1-month Maintenance Materials [$/1,000]: ", 1e3*value(blk.costing.maintenance_material_cost/12/blk.costing.capacity_factor)) #Done
     print("1-month Non-Fuel Consumables [$/1,000]: ", 1e3*value(blk.costing.non_fuel_and_waste_OC))
@@ -400,7 +408,6 @@ def report_costing_results(blk):
     print("60-Day Supply of Chemical Consumables [$/1,000]: ", 1e3*value(blk.costing.feedstock_cost_OC))
     print("0.5% TPC for Spare Parts + Other Owner's + Financing + 2% TPC [$/1,000]: ", 1e3*value(blk.costing.pct_TPC * blk.costing.total_TPC))
     print("Land [$/1,000]: ", 1e3*value(blk.costing.land_cost))
-    
     print()
     print("Cost Summary")
     print("=======================")
