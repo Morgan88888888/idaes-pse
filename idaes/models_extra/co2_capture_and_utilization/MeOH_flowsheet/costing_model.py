@@ -411,10 +411,13 @@ def report_costing_results(blk):
     print()
     print("Cost Summary")
     print("=======================")
-    print("Capital LCOP [$/kg formic acid]: ", value(blk.costing.annualized_cost*1e6/(blk.Meoh_Production*blk.costing.capacity_factor)))
-    print("Fixed O&M LCOP [$/kg formic acid]: ", value(blk.costing.total_fixed_OM_cost*1e6/(blk.Meoh_Production*blk.costing.capacity_factor)))
-    print("Variable O&M LCOP [$/kg formic acid]: ", value(blk.costing.total_variable_OM_cost[0]*1e6/(blk.Meoh_Production*blk.costing.capacity_factor)))
+    print("Capital LCOP [$/gal MeoH]: ", value(blk.costing.annualized_cost*1e6/(blk.Meoh_Production*blk.costing.capacity_factor)))
+    print("Fixed O&M LCOP [$/gal MeoH]: ", value(blk.costing.total_fixed_OM_cost*1e6/(blk.Meoh_Production*blk.costing.capacity_factor)))
+    print("Variable O&M LCOP [$/gal MeoH]: ", value(blk.costing.total_variable_OM_cost[0]*1e6/(blk.Meoh_Production*blk.costing.capacity_factor)))
     #print("Total LCOP [$/kg formic acid]: ", value(blk.costing.cost_of_production*1e6))
+    print("Total LCOP [$/gal MeoH]: ", (value(blk.costing.annualized_cost*1e6/(blk.Meoh_Production*blk.costing.capacity_factor))+
+                                              value(blk.costing.total_fixed_OM_cost*1e6/(blk.Meoh_Production*blk.costing.capacity_factor))+
+                                              value(blk.costing.total_variable_OM_cost[0]*1e6/(blk.Meoh_Production*blk.costing.capacity_factor))))
 
 
 def model_checker(model, solver, solver_info):
@@ -474,3 +477,5 @@ if __name__ == "__main__":
     TPC_validation(m.fs)
     FOM_validation(m.fs)
     VOM_validation(m.fs)
+
+    #TODO: update account 13 calculation 
